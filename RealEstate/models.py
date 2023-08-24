@@ -20,6 +20,9 @@ class Consultant(models.Model):
         return self.name
 
 
+    
+
+
 class Estate(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
