@@ -14,28 +14,20 @@ class File(models.Model):
 class Consultant(models.Model):
     address = models.TextField()
     files = models.ManyToManyField(File, blank=True)
-    name = models.CharField(max_length=40)
+    name = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.name
-
-
-    
+        return self.name.get_username()
 
 
 class Estate(models.Model):
-    name = models.CharField(max_length=100)
+    EstateName = models.CharField(max_length=100)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     address = models.TextField()
     Consultants = models.ManyToManyField(Consultant)
 
     def __str__(self):
-        return self.name
-
-
-
-
-
-
+        return self.EstateName
 
 
 
