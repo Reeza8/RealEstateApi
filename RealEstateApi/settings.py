@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,13 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'RealEstate',
     'rest_framework',
-    'rest_framework.authtoken',
-    'dj_rest_auth',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'dj_rest_auth.registration',
+    'rest_framework_simplejwt',
 
 ]
 
@@ -59,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'RealEstate.middleware.TokenMiddleWare'
+
 ]
 
 ROOT_URLCONF = 'RealEstateApi.urls'
@@ -138,23 +135,33 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
     ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ]
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ]
+
 
 }
 
-REST_AUTH = {
 
-    'USE_JWT': True,
-    'JWT_AUTH_COOKIE': 'access',
-    'JWT_AUTH_REFRESH_COOKIE': 'refresh',
+# REST_AUTH = {
+#
+#     'USE_JWT': True,
+#     'JWT_AUTH_COOKIE': 'access',
+#     'JWT_AUTH_REFRESH_COOKIE': 'refresh',
+#
+# }
 
+
+SIMPLE_JWT = {
+  # It will work instead of the default serializer(TokenObtainPairSerializer).
+  "TOKEN_OBTAIN_SERIALIZER": "RealEstate.serializer.MyTokenObtainPairSerializer",
+  "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
+  # ...
 }
