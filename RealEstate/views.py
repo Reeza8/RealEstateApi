@@ -6,9 +6,6 @@ from RealEstateApi.settings import SECRET_KEY
 
 
 class EstateList(ListAPIView):
-	queryset = Estate.objects.all()
-	serializer_class = EstateSerializer
-
 	def get(self, request, *args, **kwargs):
 		aa = str(request.auth)
 		arr = bytes(aa, 'utf-8')
@@ -18,10 +15,16 @@ class EstateList(ListAPIView):
 		return self.list(request, *args, **kwargs)
 
 
+class UploadImageFile(RetrieveUpdateAPIView):
+	queryset = File.objects.all()
+	serializer_class = FileSerializer
+
+
 class FileList(ListAPIView):
 	queryset = File.objects.all()
 	serializer_class = FileSerializer
 
+	# permission to view for estate owner or consultants
 	def get(self, request, *args, **kwargs):
 		aa = str(request.auth)
 		arr = bytes(aa, 'utf-8')
@@ -34,7 +37,7 @@ class FileList(ListAPIView):
 class ConsultantList(ListAPIView):
 	queryset = Consultant.objects.all()
 	serializer_class = ConsultantSerializer
-
+	# permission to view for consultants
 	def get(self, request, *args, **kwargs):
 		aa = str(request.auth)
 		arr = bytes(aa, 'utf-8')
@@ -48,6 +51,7 @@ class ConsultantUpdateList(RetrieveUpdateAPIView):
 	queryset = Consultant.objects.all()
 	serializer_class = ConsultantSerializer
 
+	# permission to view for consultants
 	def get(self, request, *args, **kwargs):
 		aa = str(request.auth)
 		arr = bytes(aa, 'utf-8')
@@ -55,9 +59,5 @@ class ConsultantUpdateList(RetrieveUpdateAPIView):
 		if not dic['type'] == 'Consultant':
 			raise Exception("Consultant have access to this data")
 		return self.retrieve(request, *args, **kwargs)
-
-
-
-
 
 

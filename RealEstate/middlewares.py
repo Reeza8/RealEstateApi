@@ -1,6 +1,7 @@
 from django.utils.deprecation import MiddlewareMixin
 
 
+# check if the user is authenticated
 class TokenMiddleWare(MiddlewareMixin):
     def __call__(self, request):
         url = request.get_full_path()
@@ -9,3 +10,7 @@ class TokenMiddleWare(MiddlewareMixin):
             if "token" not in url:
                 raise Exception("you must authenticate.")
         return self.get_response(request)
+
+
+
+
