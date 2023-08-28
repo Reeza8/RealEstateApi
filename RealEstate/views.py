@@ -18,7 +18,6 @@ def permissions(request, UserWithAccess):
 		raise Exception(f"{UserWithAccess} have access to this data")
 
 
-
 class EstateView(viewsets.ViewSet):
 	def list(self, request):
 		permissions(request, 'Estate owners')
