@@ -54,7 +54,7 @@ class EstateSerializer(serializers.ModelSerializer):
         model = Estate
         fields = "__all__"
 
-
+# input user data into the user token
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -67,7 +67,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             token['type'] = "admin"
         else:
             token['type'] = "EstateOwner"
-        # Add custom claims
         token['name'] = user.username
         token['first_name'] = user.first_name
         token['is_superuser'] = user.is_superuser
